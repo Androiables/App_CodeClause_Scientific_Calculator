@@ -8,15 +8,34 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/display"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text=""
-        android:gravity="bottom|right"
+        android:orientation="vertical"
         android:layout_weight="7"
-        android:textSize="@dimen/font_size"
-        tools:ignore="RtlHardcoded" />
+        android:weightSum="10">
+        <TextView
+            android:id="@+id/main_display"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingRight="20sp"
+            android:gravity="bottom|right"
+            android:textSize="@dimen/font_size"
+            tools:ignore="RtlHardcoded,RtlSymmetry"
+            android:layout_weight="3"/>
+
+        <TextView
+            android:id="@+id/res_display"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom|right"
+            android:paddingRight="30sp"
+            android:textStyle="bold"
+            android:textSize="@dimen/font_size_result"
+            tools:ignore="RtlHardcoded,RtlSymmetry"
+            android:textColor="@color/orange"
+            android:layout_weight="7"/>
+    </LinearLayout>
 
     <androidx.gridlayout.widget.GridLayout
         android:layout_width="match_parent"
@@ -26,282 +45,71 @@
         app:columnCount="4">
 
         <com.google.android.material.button.MaterialButton
-            app:layout_gravity="fill"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
+            style="@style/Button"
+            android:id="@+id/clear_btn"
             android:backgroundTint="@color/orange"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_margin="@dimen/button_margin"
-            android:text="C"
-            android:textSize="@dimen/font_size"
-            android:onClick="onPressHandler"
-            tools:ignore="UsingOnClickInXml"/>
+            android:text="C"/>
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_margin="@dimen/button_margin"
+            style="@style/Button.Operation"
+            android:longClickable="true"
+            android:id="@+id/backspace_btn"
             android:contentDescription="@string/backspace"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            app:layout_gravity="fill"
-            android:backgroundTint="@color/white"
-            android:foregroundGravity="center"
-            android:src="@drawable/ic_back_button"
-            android:onClick="onPressHandler"
-            tools:ignore="UsingOnClickInXml"/>
+            android:src="@drawable/ic_back_button"/>
 
         <com.google.android.material.button.MaterialButton
-            app:layout_gravity="fill"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            android:backgroundTint="@color/white"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_margin="@dimen/button_margin"
-            android:text="%"
-            android:textColor="@color/orange"
-            android:textSize="@dimen/font_size"
-            android:onClick="onPressHandler"
-            tools:ignore="UsingOnClickInXml" />
+            style="@style/Button.Operation"
+            android:text="^"/>
 
         <com.google.android.material.button.MaterialButton
-            app:layout_gravity="fill"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            android:textColor="@color/orange"
-            app:strokeWidth="0dp"
-            android:backgroundTint="@color/white"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_margin="@dimen/button_margin"
-            android:text="/"
-            android:textSize="@dimen/font_size"
-            android:onClick="onPressHandler"
-            tools:ignore="UsingOnClickInXml"/>
+            style="@style/Button.Operation"
+            android:text="/"/>
 
         <com.google.android.material.button.MaterialButton
-            app:layout_gravity="fill"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            android:backgroundTint="@color/white"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_margin="@dimen/button_margin"
-            android:text="7"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="@dimen/font_size"
-            android:onClick="onPressHandler"
-            tools:ignore="UsingOnClickInXml"/>
+            style="@style/Button"
+            android:text="7"/>
         <com.google.android.material.button.MaterialButton
-            app:layout_gravity="fill"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            android:backgroundTint="@color/white"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_margin="@dimen/button_margin"
-            android:text="8"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="@dimen/font_size"
-            android:onClick="onPressHandler"
-            tools:ignore="UsingOnClickInXml"/>
+            style="@style/Button"
+            android:text="8"/>
         <com.google.android.material.button.MaterialButton
-            app:layout_gravity="fill"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            android:backgroundTint="@color/white"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_margin="@dimen/button_margin"
-            android:text="9"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="@dimen/font_size"
-            android:onClick="onPressHandler"
-            tools:ignore="UsingOnClickInXml"/>
+            style="@style/Button"
+            android:text="9"/>
         <com.google.android.material.button.MaterialButton
-            app:layout_gravity="fill"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            android:backgroundTint="@color/white"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_margin="@dimen/button_margin"
-            android:text="x"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="@dimen/font_size"
-            android:onClick="onPressHandler"
-            tools:ignore="UsingOnClickInXml"/>
+            style="@style/Button.Operation"
+            android:text="x"/>
         <com.google.android.material.button.MaterialButton
-            app:layout_gravity="fill"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            android:backgroundTint="@color/white"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_margin="@dimen/button_margin"
-            android:text="4"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="@dimen/font_size"
-            android:onClick="onPressHandler"
-            tools:ignore="UsingOnClickInXml"/>
+            style="@style/Button"
+            android:text="4"/>
         <com.google.android.material.button.MaterialButton
-            app:layout_gravity="fill"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            android:backgroundTint="@color/white"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_margin="@dimen/button_margin"
-            android:text="5"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="@dimen/font_size"
-            android:onClick="onPressHandler"
-            tools:ignore="UsingOnClickInXml"/>
+            style="@style/Button"
+            android:text="5"/>
         <com.google.android.material.button.MaterialButton
-            app:layout_gravity="fill"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            android:backgroundTint="@color/white"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_margin="@dimen/button_margin"
-            android:text="6"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="@dimen/font_size"
-            android:onClick="onPressHandler"
-            tools:ignore="UsingOnClickInXml"/>
+            style="@style/Button"
+            android:text="6"/>
         <com.google.android.material.button.MaterialButton
-            app:layout_gravity="fill"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            android:backgroundTint="@color/white"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_margin="@dimen/button_margin"
-            android:text="-"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="@dimen/font_size"
-            android:onClick="onPressHandler"
-            tools:ignore="UsingOnClickInXml"/>
+            style="@style/Button.Operation"
+            android:text="-"/>
         <com.google.android.material.button.MaterialButton
-            app:layout_gravity="fill"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            android:backgroundTint="@color/white"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_margin="@dimen/button_margin"
-            android:text="1"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="@dimen/font_size"
-            android:onClick="onPressHandler"
-            tools:ignore="UsingOnClickInXml"/>
+            style="@style/Button"
+            android:text="1"/>
         <com.google.android.material.button.MaterialButton
-            app:layout_gravity="fill"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            android:backgroundTint="@color/white"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_margin="@dimen/button_margin"
-            android:text="2"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="@dimen/font_size"
-            android:onClick="onPressHandler"
-            tools:ignore="UsingOnClickInXml"/>
+            style="@style/Button"
+            android:text="2"/>
         <com.google.android.material.button.MaterialButton
-            app:layout_gravity="fill"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            android:backgroundTint="@color/white"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_margin="@dimen/button_margin"
-            android:text="3"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="@dimen/font_size"
-            android:onClick="onPressHandler"
-            tools:ignore="UsingOnClickInXml"/>
+            style="@style/Button"
+            android:text="3"/>
         <com.google.android.material.button.MaterialButton
-            app:layout_gravity="fill"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            android:backgroundTint="@color/white"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_margin="@dimen/button_margin"
-            android:text="+"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="@dimen/font_size"
-            android:onClick="onPressHandler"
-            tools:ignore="UsingOnClickInXml"/>
-        <!--        <com.google.android.material.button.MaterialButton-->
-        <!--            app:layout_gravity="fill"-->
-        <!--            app:layout_columnWeight="1"-->
-        <!--            app:layout_rowWeight="1"-->
-        <!--            android:backgroundTint="@color/white"-->
-        <!--            android:layout_width="@dimen/button_size"-->
-        <!--            android:layout_height="@dimen/button_size"-->
-        <!--            android:layout_margin="@dimen/button_margin"-->
-        <!--            android:textColor="@color/black"-->
-        <!--            android:textStyle="bold"-->
-        <!--            android:textSize="@dimen/font_size"/>-->
+            style="@style/Button.Operation"
+            android:text="+" />
         <com.google.android.material.button.MaterialButton
-            app:layout_column="1"
-            app:layout_gravity="fill"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            android:backgroundTint="@color/white"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_margin="@dimen/button_margin"
-            android:text="0"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="@dimen/font_size"
-            android:onClick="onPressHandler"
-            tools:ignore="UsingOnClickInXml"/>
+            style="@style/Button"
+            app:layout_columnSpan="2"
+            android:text="0"/>
         <com.google.android.material.button.MaterialButton
-            app:layout_gravity="fill"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            android:backgroundTint="@color/white"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_margin="@dimen/button_margin"
-            android:text="."
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="@dimen/font_size"
-            android:onClick="onPressHandler"
-            tools:ignore="UsingOnClickInXml"/>
-        <com.google.android.material.button.MaterialButton
-            app:layout_gravity="fill"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            android:backgroundTint="@color/white"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_margin="@dimen/button_margin"
-            android:text="="
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="@dimen/font_size"
-            android:onClick="onPressHandler"
-            tools:ignore="UsingOnClickInXml"/>
+            style="@style/Button"
+            android:id="@+id/calculate_btn"
+            app:layout_columnSpan="2"
+            android:backgroundTint="@color/orange"
+            android:text="="/>
     </androidx.gridlayout.widget.GridLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>
