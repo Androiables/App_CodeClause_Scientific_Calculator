@@ -64,7 +64,7 @@ public class Evaluator {
     }
 
     private static boolean isOperator(String token) {
-        return token.matches("[+\\-x/^]");
+        return token.matches("[+\\-x*/^]");
     }
 
     private static boolean hasHigherPrecedence(String operator1, String operator2) {
@@ -78,9 +78,13 @@ public class Evaluator {
             case "+":
             case "-":
                 return 1;
+            case "*":
             case "x":
             case "/":
                 return 2;
+            case "(":
+            case ")":
+                return 0;
             case "^":
                 return 3;
             default:
@@ -94,6 +98,7 @@ public class Evaluator {
                 return operand1 + operand2;
             case '-':
                 return operand1 - operand2;
+            case '*':
             case 'x':
                 return operand1 * operand2;
             case '/':
