@@ -70,8 +70,14 @@ public class MainActivity extends AppCompatActivity {
         try {
             if (clearResult) mRes = "";
             if (fullClear) mExpression.clear();
-            else mExpression.removeLast();
-        } catch (NoSuchElementException ignored) {
+            else {
+                if (Utils.isOperator(mExpression.peekLast())) {
+                    mExpression.removeLast();
+                    mExpression.removeLast();
+                }
+                mExpression.removeLast();
+            }
+        } catch (NoSuchElementException | NullPointerException ignored) {
         } finally {
             mMainDisplay.setText(mExpression.toString());
             mResultDisplay.setText(mRes);
