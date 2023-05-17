@@ -1,4 +1,4 @@
-package com.codeclause.internship.calculator;
+package com.codeclause.internship.scientificcalculator;
 
 import java.util.*;
 

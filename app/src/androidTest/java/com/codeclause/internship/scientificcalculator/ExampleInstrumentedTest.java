@@ -1,4 +1,4 @@
-package com.codeclause.internship.calculator;
+package com.codeclause.internship.scientificcalculator;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.codeclause.internship.calculator", appContext.getPackageName());
+        assertEquals("com.codeclause.internship.scientificcalculator", appContext.getPackageName());
     }
 }

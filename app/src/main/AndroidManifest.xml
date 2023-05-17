@@ -9,7 +9,7 @@
         android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/Theme.SimpleCalculator"
+        android:theme="@style/Theme.ScientificCalculator"
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"

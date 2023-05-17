@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.codeclause.internship.calculator'
+    namespace 'com.codeclause.internship.scientificcalculator'
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.codeclause.internship.calculator"
+        applicationId "com.codeclause.internship.scientificcalculator"
         minSdk 21
         targetSdk 32
         versionCode 1

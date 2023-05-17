@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">Simple Calculator</string>
+    <string name="app_name">Scientific Calculator</string>
     <string name="backspace">Backspace</string>
 </resources>

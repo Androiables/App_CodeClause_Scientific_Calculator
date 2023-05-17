@@ -1,33 +1,36 @@
-Sure, here is a sample README.md file for your Android Simple Calculator application:
+Certainly! Here's a sample README.md file for your Scientific Calculator Android Application:
 
-# Simple Calculator
+# Scientific Calculator
 
-This is an Android application for a simple calculator, developed as part of an internship program by CodeClause Organization.
+This is an Android application for a scientific calculator, developed as part of an internship program by CodeClause Organization.
 
 ## Project Description
 
-The Simple Calculator application is an Android-based calculator that allows users to perform basic arithmetic calculations such as addition, subtraction, multiplication, and division. The user can input two numbers and select the desired operation to perform. The result is then displayed on the screen.
+The Scientific Calculator application is an Android-based calculator that provides advanced mathematical functions and operations beyond basic arithmetic calculations. It allows users to perform complex calculations, including trigonometric functions, logarithmic functions, exponential functions, and more. The application provides a user-friendly interface with a variety of buttons and features for efficient calculation.
 
 ## Features
 
-- Addition of two numbers
-- Subtraction of two numbers
-- Multiplication of two numbers
-- Division of two numbers
-- Error handling for invalid inputs
+- Basic arithmetic calculations (addition, subtraction, multiplication, division)
+- Trigonometric functions (sine, cosine, tangent, etc.)
+- Logarithmic functions (log, ln)
+- Exponential functions (exponentiation, square root)
+- Memory functions (store, recall)
+- History of calculations
+- Customizable settings (theme, precision)
 
 ## Installation and Usage
 
-To install and use the Simple Calculator application, follow these steps:
+To install and use the Scientific Calculator application, follow these steps:
 
 1. Clone the repository to your local machine.
 2. Open the project in Android Studio.
 3. Build and run the application on an emulator or physical device.
-4. Follow the on-screen instructions to perform calculations.
+4. Use the various buttons and functions to perform calculations.
+5. Explore the settings to customize the calculator according to your preferences.
 
 ## Dependencies
 
-The Simple Calculator application has the following dependencies:
+The Scientific Calculator application has the following dependencies:
 
 - Android SDK
 - Android Studio
@@ -38,4 +41,4 @@ This project is licensed under the MIT License. See the `LICENSE` file for more 
 
 ## Credits
 
-This project was developed by [Mohd Faraz](https://github.com/AndroiableDroid) as part of an internship program by CodeClause Organization.
+This project was developed by Mohd Faraz as part of an internship program by CodeClause Organization.

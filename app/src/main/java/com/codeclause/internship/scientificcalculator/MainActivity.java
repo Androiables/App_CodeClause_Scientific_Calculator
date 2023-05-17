@@ -1,4 +1,4 @@
-package com.codeclause.internship.calculator;
+package com.codeclause.internship.scientificcalculator;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
