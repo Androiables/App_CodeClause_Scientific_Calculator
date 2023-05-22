@@ -21,7 +21,6 @@
         <item name="android:layout_height">@dimen/button_size</item>
         <item name="android:layout_margin">@dimen/button_margin</item>
         <item name="android:onClick">onPressHandler</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/font_size</item>
         <item name="layout_gravity">fill</item>
         <item name="layout_columnWeight">1</item>

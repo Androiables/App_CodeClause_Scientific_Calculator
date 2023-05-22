@@ -41,9 +41,44 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="3"
-        app:rowCount="5"
-        app:columnCount="4">
+        app:rowCount="7"
+        app:columnCount="5">
 
+        <com.google.android.material.button.MaterialButton
+            style="@style/Button"
+            android:text="2nd"/>
+        <com.google.android.material.button.MaterialButton
+            style="@style/Button"
+            android:text="deg"/>
+        <com.google.android.material.button.MaterialButton
+            style="@style/Button"
+            android:text="sin"/>
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Button"
+            android:text="cos" />
+        <com.google.android.material.button.MaterialButton
+            style="@style/Button"
+            android:text="tan"/>
+        <com.google.android.material.button.MaterialButton
+            style="@style/Button"
+            android:text="^"/>
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Button"
+            android:text="lg"/>
+        <com.google.android.material.button.MaterialButton
+            style="@style/Button"
+            android:text="ln"/>
+        <com.google.android.material.button.MaterialButton
+            style="@style/Button"
+            android:text="("/>
+        <com.google.android.material.button.MaterialButton
+            style="@style/Button"
+            android:text=")"/>
+        <com.google.android.material.button.MaterialButton
+            style="@style/Button"
+            android:text="r"/>
         <com.google.android.material.button.MaterialButton
             style="@style/Button"
             android:id="@+id/clear_btn"
@@ -59,12 +94,14 @@
 
         <com.google.android.material.button.MaterialButton
             style="@style/Button.Operation"
-            android:text="^"/>
+            android:text="%"/>
 
         <com.google.android.material.button.MaterialButton
             style="@style/Button.Operation"
             android:text="/"/>
-
+        <com.google.android.material.button.MaterialButton
+            style="@style/Button"
+            android:text="x!"/>
         <com.google.android.material.button.MaterialButton
             style="@style/Button"
             android:text="7"/>
@@ -79,6 +116,9 @@
             android:text="x"/>
         <com.google.android.material.button.MaterialButton
             style="@style/Button"
+            android:text="1/x"/>
+        <com.google.android.material.button.MaterialButton
+            style="@style/Button"
             android:text="4"/>
         <com.google.android.material.button.MaterialButton
             style="@style/Button"
@@ -89,6 +129,9 @@
         <com.google.android.material.button.MaterialButton
             style="@style/Button.Operation"
             android:text="-"/>
+        <com.google.android.material.button.MaterialButton
+            style="@style/Button"
+            android:text="π"/>
         <com.google.android.material.button.MaterialButton
             style="@style/Button"
             android:text="1"/>
@@ -103,12 +146,17 @@
             android:text="+" />
         <com.google.android.material.button.MaterialButton
             style="@style/Button"
-            app:layout_columnSpan="2"
+            app:layout_column="1"
+            android:text="e"/>
+        <com.google.android.material.button.MaterialButton
+            style="@style/Button"
             android:text="0"/>
         <com.google.android.material.button.MaterialButton
             style="@style/Button"
+            android:text="."/>
+        <com.google.android.material.button.MaterialButton
+            style="@style/Button"
             android:id="@+id/calculate_btn"
-            app:layout_columnSpan="2"
             android:backgroundTint="@color/orange"
             android:text="="/>
     </androidx.gridlayout.widget.GridLayout>

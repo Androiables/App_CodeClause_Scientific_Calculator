@@ -1,50 +1,184 @@
 package com.codeclause.internship.scientificcalculator;
 
+import android.util.Log;
+
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class Evaluator {
 
-    public static String solveExpression(String expression) {
-        Queue<String> outputQueue = new LinkedList<String>();
-        Stack<String> operatorStack = new Stack<String>();
-        String[] tokens = expression.split("\\s+");
-        String ret;
+    private String mExpression;
+    private boolean mIsDeg;
+    private static final DecimalFormat decfor = new DecimalFormat("0.0000");
 
-        for (String token : tokens) {
-            if (isNumber(token)) {
-                outputQueue.add(token);
-            } else if (isOperator(token)) {
-                while (!operatorStack.isEmpty() && hasHigherPrecedence(operatorStack.peek(), token)) {
-                    outputQueue.add(operatorStack.pop());
+    private static final Map<String, Integer> OPERATOR_PRECEDENCE;
+
+    static {
+        OPERATOR_PRECEDENCE = new HashMap<>();
+        OPERATOR_PRECEDENCE.put("+", 1);
+        OPERATOR_PRECEDENCE.put("-", 1);
+        OPERATOR_PRECEDENCE.put("*", 2);
+        OPERATOR_PRECEDENCE.put("x", 2);
+        OPERATOR_PRECEDENCE.put("/", 2);
+        OPERATOR_PRECEDENCE.put("^", 3);
+        OPERATOR_PRECEDENCE.put("sin", 1);
+        OPERATOR_PRECEDENCE.put("cos", 1);
+        OPERATOR_PRECEDENCE.put("tan", 1);
+    }
+
+    public Evaluator() {
+        mExpression = "";
+    }
+
+    public Evaluator(String expression) {
+        mExpression = expression;
+    }
+
+    public void changeDeg() {
+        mIsDeg = !mIsDeg;
+    }
+
+    public void setExpression(String expression) {
+        mExpression = expression;
+    }
+
+    public String solveExpression() {
+        Queue<String> rpnQueue = convertToRPN();
+        return evaluateRPN(rpnQueue);
+    }
+
+    private Queue<String> convertToRPN() {
+        Queue<String> outputQueue = new LinkedList<>();
+        Stack<Character> operatorStack = new Stack<>();
+
+        StringBuilder currentNumber = new StringBuilder();
+        boolean isParsingNumber = false;
+
+        for (int i = 0; i < mExpression.length(); i++) {
+            char c = mExpression.charAt(i);
+            if (Character.isDigit(c) || c == '.' || (c == '-' && (i == 0 || !Character.isDigit(mExpression.charAt(i - 1))))) {
+                currentNumber.append(c);
+                isParsingNumber = true;
+            } else if (c == 'π') {
+                isParsingNumber = true;
+                currentNumber.append(Math.PI);
+            } else {
+                if (isParsingNumber) {
+                    outputQueue.add(currentNumber.toString());
+                    currentNumber.setLength(0);
+                    isParsingNumber = false;
                 }
-                operatorStack.push(token);
-            } else if (token.equals("(")) {
-                operatorStack.push(token);
-            } else if (token.equals(")")) {
-                while (!operatorStack.peek().equals("(")) {
-                    outputQueue.add(operatorStack.pop());
+
+                if (c != 'x' && Character.isAlphabetic(c)) {
+                    String operation = mExpression.substring(i, i + 3);
+                    while (!operatorStack.isEmpty() && isHigherPrecedence(String.valueOf(operatorStack.peek()), operation)) {
+                        outputQueue.add(String.valueOf(operatorStack.pop()));
+                    }
+                    operatorStack.push(c);
+                    i = i + 2;
+
+                } else if (OPERATOR_PRECEDENCE.containsKey(c + "")) {
+                    while (!operatorStack.isEmpty() && isHigherPrecedence(String.valueOf(operatorStack.peek()), String.valueOf(c))) {
+                        outputQueue.add(String.valueOf(operatorStack.pop()));
+                    }
+                    operatorStack.push(c);
+                } else if (c == '(') {
+                    operatorStack.push(c);
+                } else if (c == ')') {
+                    while (!operatorStack.isEmpty() && operatorStack.peek() != '(') {
+                        outputQueue.add(String.valueOf(operatorStack.pop()));
+                    }
+                    if (!operatorStack.isEmpty() && operatorStack.peek() == '(') {
+                        operatorStack.pop();
+                    } else {
+                        throw new IllegalArgumentException("Mismatched parentheses.");
+                    }
                 }
-                operatorStack.pop();
             }
+        }
+
+        if (isParsingNumber) {
+            outputQueue.add(currentNumber.toString());
         }
 
         while (!operatorStack.isEmpty()) {
-            outputQueue.add(operatorStack.pop());
+            if (operatorStack.peek() == '(' || operatorStack.peek() == ')') {
+                throw new IllegalArgumentException("Mismatched parentheses.");
+            }
+            outputQueue.add(String.valueOf(operatorStack.pop()));
         }
 
-        Stack<Double> evaluationStack = new Stack<Double>();
+        return outputQueue;
+    }
 
-        for (String token : outputQueue) {
-            if (isNumber(token)) {
-                evaluationStack.push(Double.parseDouble(token));
-            } else if (isOperator(token)) {
-                double operand2 = evaluationStack.pop();
-                double operand1 = evaluationStack.pop();
-                double result = applyOperator(token.charAt(0), operand1, operand2);
-                evaluationStack.push(result);
+    public static String isTrignometricFunction(char s) {
+        return s == 's' ? "sin" :
+                s == 'c' ? "cos" :
+                        s == 't' ? "tan" : "";
+    }
+
+    private boolean isHigherPrecedence(String op1, String op2) {
+        int precedence1 = OPERATOR_PRECEDENCE.containsKey(op1) ? OPERATOR_PRECEDENCE.get(op1) : 0;
+        int precedence2 = OPERATOR_PRECEDENCE.containsKey(op2) ? OPERATOR_PRECEDENCE.get(op2) : 0;
+        return precedence1 >= precedence2;
+    }
+
+    private String evaluateRPN(Queue<String> rpnQueue) {
+        Stack<Double> operandStack = new Stack<>();
+        double operand1 = 0, operand2;
+        String ret;
+
+        while (!rpnQueue.isEmpty()) {
+            String token = rpnQueue.poll();
+            if (isNumeric(token)) {
+                operandStack.push(Double.parseDouble(token));
+            } else {
+                operand2 = operandStack.pop();
+                if (!isTrignometricFunction(token.charAt(0)).isEmpty() && mIsDeg) {
+                    operand2 = Double.parseDouble(decfor.format(Math.toRadians(operand2)));
+                }
+                try {
+                    operand1 = operandStack.pop();
+                } catch (EmptyStackException ignored){}
+
+                switch (token) {
+                    case "+":
+                        operandStack.push(operand1 + operand2);
+                        break;
+                    case "-":
+                        operandStack.push(operand1 - operand2);
+                        break;
+                    case "x":
+                    case "*":
+                        operandStack.push(operand1 * operand2);
+                        break;
+                    case "/":
+                        operandStack.push(operand1 / operand2);
+                        break;
+                    case "^":
+                        operandStack.push(Math.pow(operand1, operand2));
+                        break;
+                    case "s":
+                        operandStack.push(Double.parseDouble(decfor.format(Math.sin(operand2))));
+                        break;
+                    case "c":
+                        operandStack.push(Double.parseDouble(decfor.format(Math.cos(operand2))));
+                        break;
+                    case "t":
+                        if (operand2 == 1.5708) operandStack.push(Double.NaN);
+                        else operandStack.push(Double.parseDouble(decfor.format(Math.tan(operand2))));
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Invalid operator: " + token);
+                }
             }
         }
-        ret = Double.toString(evaluationStack.pop());
+
+        if (operandStack.size() != 1) {
+            throw new IllegalArgumentException("Invalid expression.");
+        }
+
+        ret = Double.toString(operandStack.pop());
         try {
             if (ret.substring(ret.indexOf('.')).equals(".0"))
                 ret = ret.substring(0, ret.indexOf('.'));
@@ -54,59 +188,23 @@ public class Evaluator {
         }
     }
 
-    private static boolean isNumber(String token) {
-        try {
-            Double.parseDouble(token);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
+    private boolean isNumeric(String str) {
+        return str.matches("-?\\d+(\\.\\d+)?");
     }
 
-    private static boolean isOperator(String token) {
-        return token.matches("[+\\-x*/^]");
+    public boolean getIsDeg() {
+        return mIsDeg;
     }
 
-    private static boolean hasHigherPrecedence(String operator1, String operator2) {
-        int precedence1 = getPrecedence(operator1);
-        int precedence2 = getPrecedence(operator2);
-        return precedence1 >= precedence2;
+    public static Evaluator getInstance() {
+        return new Evaluator();
     }
 
-    private static int getPrecedence(String operator) {
-        switch (operator) {
-            case "+":
-            case "-":
-                return 1;
-            case "*":
-            case "x":
-            case "/":
-                return 2;
-            case "(":
-            case ")":
-                return 0;
-            case "^":
-                return 3;
-            default:
-                throw new IllegalArgumentException("Invalid operator: " + operator);
-        }
+    public static Evaluator getInstance(String expression) {
+        return new Evaluator(expression);
     }
 
-    private static double applyOperator(char operator, double operand1, double operand2) {
-        switch (operator) {
-            case '+':
-                return operand1 + operand2;
-            case '-':
-                return operand1 - operand2;
-            case '*':
-            case 'x':
-                return operand1 * operand2;
-            case '/':
-                return operand1 / operand2;
-            case '^':
-                return Math.pow(operand1, operand2);
-            default:
-                throw new IllegalArgumentException("Invalid operator: " + operator);
-        }
+    public static String solveExpression(String expression) {
+        return getInstance(expression).solveExpression();
     }
 }

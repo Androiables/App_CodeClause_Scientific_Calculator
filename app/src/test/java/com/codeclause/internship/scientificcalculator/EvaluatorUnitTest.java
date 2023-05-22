@@ -57,4 +57,14 @@ public class EvaluatorUnitTest {
     public void bracesExpression_isCorrect() {
         assertEquals("6", Evaluator.solveExpression("( 2 + 1 ) * 2"));
     }
+
+    @Test
+    public void doubleExpression_isCorrect() {
+        assertEquals("3.5", Evaluator.solveExpression("( ( 2.5 + 3.5 ) + 1.0 ) / 2.0"));
+    }
+
+    @Test
+    public void inverseExpression_isCorrect() {
+        assertEquals("0.2", Evaluator.solveExpression("2^-1"));
+    }
 }
