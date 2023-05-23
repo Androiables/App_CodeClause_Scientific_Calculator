@@ -2,10 +2,18 @@ package com.codeclause.internship.scientificcalculator;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import org.jetbrains.annotations.Contract;
+
 import java.text.DecimalFormat;
 import java.util.*;
 
 public class Evaluator {
+
+    public static final String PI = "π";
+    public static final String E = "e";
 
     private String mExpression;
     private boolean mIsDeg;
@@ -15,6 +23,7 @@ public class Evaluator {
 
     static {
         OPERATOR_PRECEDENCE = new HashMap<>();
+        OPERATOR_PRECEDENCE.put("e", 0);
         OPERATOR_PRECEDENCE.put("+", 1);
         OPERATOR_PRECEDENCE.put("-", 1);
         OPERATOR_PRECEDENCE.put("*", 2);
@@ -41,12 +50,17 @@ public class Evaluator {
     public void setExpression(String expression) {
         mExpression = expression;
     }
+    public String solveExpression(String expression) {
+        setExpression(expression);
+        return solveExpression();
+    }
 
     public String solveExpression() {
         Queue<String> rpnQueue = convertToRPN();
         return evaluateRPN(rpnQueue);
     }
 
+    @NonNull
     private Queue<String> convertToRPN() {
         Queue<String> outputQueue = new LinkedList<>();
         Stack<Character> operatorStack = new Stack<>();
@@ -59,9 +73,12 @@ public class Evaluator {
             if (Character.isDigit(c) || c == '.' || (c == '-' && (i == 0 || !Character.isDigit(mExpression.charAt(i - 1))))) {
                 currentNumber.append(c);
                 isParsingNumber = true;
-            } else if (c == 'π') {
+            } else if (String.valueOf(c).equals(PI)) {
                 isParsingNumber = true;
                 currentNumber.append(Math.PI);
+            } else if (String.valueOf(c).equals(E)) {
+                isParsingNumber = true;
+                currentNumber.append(Math.E);
             } else {
                 if (isParsingNumber) {
                     outputQueue.add(currentNumber.toString());
@@ -111,10 +128,12 @@ public class Evaluator {
         return outputQueue;
     }
 
+    @Nullable
+    @Contract(pure = true)
     public static String isTrignometricFunction(char s) {
         return s == 's' ? "sin" :
                 s == 'c' ? "cos" :
-                        s == 't' ? "tan" : "";
+                        s == 't' ? "tan" : null;
     }
 
     private boolean isHigherPrecedence(String op1, String op2) {
@@ -134,7 +153,7 @@ public class Evaluator {
                 operandStack.push(Double.parseDouble(token));
             } else {
                 operand2 = operandStack.pop();
-                if (!isTrignometricFunction(token.charAt(0)).isEmpty() && mIsDeg) {
+                if (isTrignometricFunction(token.charAt(0)) != null && mIsDeg) {
                     operand2 = Double.parseDouble(decfor.format(Math.toRadians(operand2)));
                 }
                 try {
@@ -167,6 +186,9 @@ public class Evaluator {
                     case "t":
                         if (operand2 == 1.5708) operandStack.push(Double.NaN);
                         else operandStack.push(Double.parseDouble(decfor.format(Math.tan(operand2))));
+                        break;
+                    case PI:
+                        operandStack.push(Math.E);
                         break;
                     default:
                         throw new IllegalArgumentException("Invalid operator: " + token);
@@ -204,7 +226,7 @@ public class Evaluator {
         return new Evaluator(expression);
     }
 
-    public static String solveExpression(String expression) {
+    public static String solveExpressionExplicit(String expression) {
         return getInstance(expression).solveExpression();
     }
 }

@@ -1,5 +1,6 @@
 package com.codeclause.internship.scientificcalculator;
 
+import android.util.Log;
 import android.util.Pair;
 
 import androidx.annotation.NonNull;
@@ -26,11 +27,26 @@ public class Utils {
 
     private static class CustomDeque extends LinkedList<String> {
 
+        CustomDeque() {
+            add("0");
+        }
+
+        @Override
+        public void clear() {
+            super.clear();
+            add("0");
+        }
+
         @Override
         public boolean add(String c) {
             try {
-                if (Evaluator.isTrignometricFunction(c.charAt(0)).length() != 0)
+                if (c.equals(Evaluator.PI) || c.equals(Evaluator.E)) {
+                    removeHeadingZero();
+                }
+                if (Evaluator.isTrignometricFunction(c.charAt(0)) != null) {
+                    removeHeadingZero();
                     return super.add(Evaluator.isTrignometricFunction(c.charAt(0)) + "(");
+                }
                 if (isOperator(c)) {
                     if (isOperator(peekLast())) {
                         removeLast();
@@ -46,6 +62,11 @@ public class Utils {
                     return super.add(c);
             }
             return false;
+        }
+
+        private void removeHeadingZero() {
+            if (size() == 1 && peekLast().equals("0"))
+                removeLast();
         }
 
         @NonNull

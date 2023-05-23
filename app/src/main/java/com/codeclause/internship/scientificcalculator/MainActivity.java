@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         mExpression = Utils.getCustomDequeInstance();
         mEvaluator = Evaluator.getInstance();
         mRes = "";
+        mMainDisplay.setText("0");
     }
 
     public void onPressHandler(View v) {
@@ -74,8 +75,7 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     private void calculate() {
         try {
-
-            mRes = "= " + Evaluator.solveExpression(mExpression.toString());
+            mRes = "= " + mEvaluator.solveExpression(mExpression.toString());
             mResultDisplay.setText(mRes);
         } catch (EmptyStackException ignored) {
         } catch (IllegalArgumentException e) {
