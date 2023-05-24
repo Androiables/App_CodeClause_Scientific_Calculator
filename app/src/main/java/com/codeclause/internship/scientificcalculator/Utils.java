@@ -40,7 +40,12 @@ public class Utils {
         @Override
         public boolean add(String c) {
             try {
-                if (c.equals(Evaluator.PI) || c.equals(Evaluator.E)) {
+                if (c.equals(Evaluator.PI)
+                        || c.equals(Evaluator.E)
+                        || Character.isDigit(c.charAt(0))
+                        || c.equals("lon(")
+                        || c.equals("log(")
+                        || c.equals("(")) {
                     removeHeadingZero();
                 }
                 if (Evaluator.isTrignometricFunction(c.charAt(0)) != null) {

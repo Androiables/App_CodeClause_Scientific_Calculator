@@ -45,11 +45,15 @@ public class MainActivity extends AppCompatActivity {
         if (v instanceof MaterialButton) {
             MaterialButton btn = (MaterialButton) v;
             String mText = btn.getText().toString();
-            if (btn.getId() == R.id.inverse_btn) mText = "^-1";
             if (btn.getId() == R.id.clear_btn) clear(true, true);
             else if (btn.getId() == R.id.calculate_btn) calculate();
             else if (btn.getId() == R.id.change_deg_btn) changeDeg(btn);
             else {
+                if (btn.getId() == R.id.inverse_btn) mText = "^-1";
+                else if (btn.getId() == R.id.factorial_btn) mText = "!";
+                else if (btn.getId() == R.id.sqrt_btn) mText = "^(0.5)";
+                else if (btn.getId() == R.id.log_btn) mText = "log(";
+                else if (btn.getId() == R.id.natural_log_btn) mText = "lon(";
                 if (mRes.length() != 0) {
                     clear(true, true);
                 }
@@ -61,10 +65,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @SuppressLint("ResourceAsColor")
     private void changeDeg(MaterialButton button) {
         mEvaluator.changeDeg();
-        Log.d("sfsdfs", mEvaluator.getIsDeg() + "");
         if (mEvaluator.getIsDeg()) {
             button.setTypeface(null, Typeface.BOLD_ITALIC);
         } else {

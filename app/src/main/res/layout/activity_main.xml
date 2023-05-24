@@ -46,9 +46,8 @@
 
         <com.google.android.material.button.MaterialButton
             style="@style/Button"
-            android:text="2nd"/>
-        <com.google.android.material.button.MaterialButton
-            style="@style/Button"
+            app:layout_columnSpan="2"
+            android:id="@+id/change_deg_btn"
             android:text="deg"/>
         <com.google.android.material.button.MaterialButton
             style="@style/Button"
@@ -66,9 +65,11 @@
 
         <com.google.android.material.button.MaterialButton
             style="@style/Button"
-            android:text="lg"/>
+            android:id="@+id/log_btn"
+            android:text="log"/>
         <com.google.android.material.button.MaterialButton
             style="@style/Button"
+            android:id="@+id/natural_log_btn"
             android:text="ln"/>
         <com.google.android.material.button.MaterialButton
             style="@style/Button"
@@ -78,7 +79,8 @@
             android:text=")"/>
         <com.google.android.material.button.MaterialButton
             style="@style/Button"
-            android:text="r"/>
+            android:id="@+id/sqrt_btn"
+            android:text="\u221A"/>
         <com.google.android.material.button.MaterialButton
             style="@style/Button"
             android:id="@+id/clear_btn"
@@ -101,6 +103,7 @@
             android:text="/"/>
         <com.google.android.material.button.MaterialButton
             style="@style/Button"
+            android:id="@+id/factorial_btn"
             android:text="x!"/>
         <com.google.android.material.button.MaterialButton
             style="@style/Button"
@@ -116,6 +119,7 @@
             android:text="x"/>
         <com.google.android.material.button.MaterialButton
             style="@style/Button"
+            android:id="@+id/inverse_btn"
             android:text="1/x"/>
         <com.google.android.material.button.MaterialButton
             style="@style/Button"
@@ -146,7 +150,6 @@
             android:text="+" />
         <com.google.android.material.button.MaterialButton
             style="@style/Button"
-            app:layout_column="1"
             android:text="e"/>
         <com.google.android.material.button.MaterialButton
             style="@style/Button"
@@ -157,6 +160,7 @@
         <com.google.android.material.button.MaterialButton
             style="@style/Button"
             android:id="@+id/calculate_btn"
+            app:layout_columnSpan="2"
             android:backgroundTint="@color/orange"
             android:text="="/>
     </androidx.gridlayout.widget.GridLayout>

@@ -14,9 +14,6 @@ The Scientific Calculator application is an Android-based calculator that provid
 - Trigonometric functions (sine, cosine, tangent, etc.)
 - Logarithmic functions (log, ln)
 - Exponential functions (exponentiation, square root)
-- Memory functions (store, recall)
-- History of calculations
-- Customizable settings (theme, precision)
 
 ## Installation and Usage
 

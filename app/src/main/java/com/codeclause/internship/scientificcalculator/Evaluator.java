@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.apache.commons.math3.special.Gamma;
 import org.jetbrains.annotations.Contract;
 
 import java.text.DecimalFormat;
@@ -24,15 +25,21 @@ public class Evaluator {
     static {
         OPERATOR_PRECEDENCE = new HashMap<>();
         OPERATOR_PRECEDENCE.put("e", 0);
+        OPERATOR_PRECEDENCE.put("!", 0);
         OPERATOR_PRECEDENCE.put("+", 1);
         OPERATOR_PRECEDENCE.put("-", 1);
         OPERATOR_PRECEDENCE.put("*", 2);
         OPERATOR_PRECEDENCE.put("x", 2);
         OPERATOR_PRECEDENCE.put("/", 2);
         OPERATOR_PRECEDENCE.put("^", 3);
-        OPERATOR_PRECEDENCE.put("sin", 1);
-        OPERATOR_PRECEDENCE.put("cos", 1);
-        OPERATOR_PRECEDENCE.put("tan", 1);
+        OPERATOR_PRECEDENCE.put("sin", 3);
+        OPERATOR_PRECEDENCE.put("cos", 3);
+        OPERATOR_PRECEDENCE.put("tan", 3);
+        // Hacks for log - > g
+        // ln -> n
+        OPERATOR_PRECEDENCE.put("g", 3);
+        OPERATOR_PRECEDENCE.put("n", 3);
+        OPERATOR_PRECEDENCE.put("%", 4);
     }
 
     public Evaluator() {
@@ -73,6 +80,11 @@ public class Evaluator {
             if (Character.isDigit(c) || c == '.' || (c == '-' && (i == 0 || !Character.isDigit(mExpression.charAt(i - 1))))) {
                 currentNumber.append(c);
                 isParsingNumber = true;
+                try {
+                    if (mExpression.charAt(i - 1) == ')') {
+                        throw new IllegalArgumentException("Mismatched Expression");
+                    }
+                } catch (StringIndexOutOfBoundsException ignored){}
             } else if (String.valueOf(c).equals(PI)) {
                 isParsingNumber = true;
                 currentNumber.append(Math.PI);
@@ -88,7 +100,12 @@ public class Evaluator {
 
                 if (c != 'x' && Character.isAlphabetic(c)) {
                     String operation = mExpression.substring(i, i + 3);
-                    while (!operatorStack.isEmpty() && isHigherPrecedence(String.valueOf(operatorStack.peek()), operation)) {
+                    if (operation.equals("log"))
+                        c = 'g';
+                    else if (operation.equals("lon"))
+                        c = 'n';
+                    Log.d("fsdf", operation);
+                    while (!operatorStack.isEmpty() && isHigherPrecedence(String.valueOf(operatorStack.peek()), String.valueOf(c))) {
                         outputQueue.add(String.valueOf(operatorStack.pop()));
                     }
                     operatorStack.push(c);
@@ -133,7 +150,7 @@ public class Evaluator {
     public static String isTrignometricFunction(char s) {
         return s == 's' ? "sin" :
                 s == 'c' ? "cos" :
-                        s == 't' ? "tan" : null;
+                s == 't' ? "tan" : null;
     }
 
     private boolean isHigherPrecedence(String op1, String op2) {
@@ -142,15 +159,20 @@ public class Evaluator {
         return precedence1 >= precedence2;
     }
 
+    private static double factorial(double n) {
+        return Gamma.gamma(n + 1);
+    }
+
     private String evaluateRPN(Queue<String> rpnQueue) {
         Stack<Double> operandStack = new Stack<>();
-        double operand1 = 0, operand2;
+        double operand1 = 0.0, operand2;
         String ret;
 
         while (!rpnQueue.isEmpty()) {
-            String token = rpnQueue.poll();
-            if (isNumeric(token)) {
-                operandStack.push(Double.parseDouble(token));
+            StringBuilder token = new StringBuilder(Objects.requireNonNull(rpnQueue.poll()));
+            Log.d("sfdsf", token.toString());
+            if (isNumeric(token.toString())) {
+                operandStack.push(Double.parseDouble(token.toString()));
             } else {
                 operand2 = operandStack.pop();
                 if (isTrignometricFunction(token.charAt(0)) != null && mIsDeg) {
@@ -160,7 +182,7 @@ public class Evaluator {
                     operand1 = operandStack.pop();
                 } catch (EmptyStackException ignored){}
 
-                switch (token) {
+                switch (token.toString()) {
                     case "+":
                         operandStack.push(operand1 + operand2);
                         break;
@@ -187,8 +209,24 @@ public class Evaluator {
                         if (operand2 == 1.5708) operandStack.push(Double.NaN);
                         else operandStack.push(Double.parseDouble(decfor.format(Math.tan(operand2))));
                         break;
+                    case "g":
+                        operandStack.push(Math.log10(operand2));
+                        break;
+                    case "n":
+                        operandStack.push(Math.log(operand2));
+                        break;
                     case PI:
                         operandStack.push(Math.E);
+                        break;
+                    case "!":
+                        operandStack.push(factorial(operand2));
+                        Log.d("fsdf", operand2 + "");
+                        break;
+                    case "%":
+                        if (operand1 == 0.0)
+                            operandStack.push(operand2 / 100.0);
+                        else
+                            operandStack.push(operand1 * operand2 / 100.0);
                         break;
                     default:
                         throw new IllegalArgumentException("Invalid operator: " + token);
