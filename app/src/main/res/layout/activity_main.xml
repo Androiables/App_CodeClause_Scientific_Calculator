@@ -116,6 +116,7 @@
             android:text="9"/>
         <com.google.android.material.button.MaterialButton
             style="@style/Button.Operation"
+            android:id="@+id/product_btn"
             android:text="x"/>
         <com.google.android.material.button.MaterialButton
             style="@style/Button"

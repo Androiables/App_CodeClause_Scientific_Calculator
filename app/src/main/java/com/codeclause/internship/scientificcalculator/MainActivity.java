@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
             else if (btn.getId() == R.id.calculate_btn) calculate();
             else if (btn.getId() == R.id.change_deg_btn) changeDeg(btn);
             else {
+                if (btn.getId() == R.id.product_btn) mText = "*";
                 if (btn.getId() == R.id.inverse_btn) mText = "^-1";
                 else if (btn.getId() == R.id.factorial_btn) mText = "!";
                 else if (btn.getId() == R.id.sqrt_btn) mText = "^(0.5)";
