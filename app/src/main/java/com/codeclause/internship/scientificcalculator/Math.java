@@ -4,6 +4,8 @@ import java.text.DecimalFormat;
 
 public class Math {
 
+    public static final double PI = java.lang.Math.PI;
+    public static final double E = java.lang.Math.E;
     private static final DecimalFormat decfor = new DecimalFormat("0.0000");
 
     private static double format(double data) {
@@ -29,5 +31,13 @@ public class Math {
     public static Double tan(double angle) {
         if (angle == 1.5708) return Double.NaN;
         return format(java.lang.Math.tan(angle));
+    }
+
+    public static Double log(double value) {
+        return format(java.lang.Math.log(value));
+    }
+
+    public static Double log10(double value) {
+        return format(java.lang.Math.log10(value));
     }
 }

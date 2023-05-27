@@ -50,6 +50,10 @@ public class Evaluator {
         OPERATOR_PRECEDENCE.put('s', 1);
         OPERATOR_PRECEDENCE.put('c', 1);
         OPERATOR_PRECEDENCE.put('t', 1);
+        // Hacks for log - > g
+        // ln -> n
+        OPERATOR_PRECEDENCE.put('g', 3);
+        OPERATOR_PRECEDENCE.put('n', 3);
     }
 
     public String solveExpression(String expression) {
@@ -72,9 +76,17 @@ public class Evaluator {
 
         for (int i = 0; i < mExpression.length(); i++) {
             char c = mExpression.charAt(i);
-            if (Character.isDigit(c) || c == '.' || (c == '-' && (i == 0 || !Character.isDigit(mExpression.charAt(i - 1))))) {
+            if (Character.isDigit(c) || c == '.'
+                    || (c == '-' && (i == 0 || !Character.isDigit(mExpression.charAt(i - 1))))
+            ) {
                 currentNumber.append(c);
                 isParsingNumber = true;
+            } else if (String.valueOf(c).equals(PI)) {
+                isParsingNumber = true;
+                currentNumber.append(Math.PI);
+            } else if (String.valueOf(c).equals(E)) {
+                isParsingNumber = true;
+                currentNumber.append(Math.E);
             } else {
                 if (isParsingNumber) {
                     outputQueue.add(currentNumber.toString());
@@ -82,7 +94,15 @@ public class Evaluator {
                     isParsingNumber = false;
                 }
                 if (Character.isAlphabetic(c)) {
-                    operatorStack.push(c);
+                    // Check for log
+                    if (c == 'l') {
+                        if (mExpression.charAt(i + 2) == 'g')
+                            operatorStack.push('g');
+                        else if (mExpression.charAt(i+2) == 'n')
+                            operatorStack.push('n');
+                    }
+                    else
+                        operatorStack.push(c);
                     i = i+2;
                 }
                 else if (OPERATOR_PRECEDENCE.containsKey(c)) {
@@ -168,6 +188,12 @@ public class Evaluator {
                         break;
                     case "t":
                         operandStack.push(Math.tan(operand2));
+                        break;
+                    case "g":
+                        operandStack.push(Math.log10(operand2));
+                        break;
+                    case "n":
+                        operandStack.push(Math.log(operand2));
                         break;
                     default:
                         throw new IllegalArgumentException("Invalid operator: " + token);
