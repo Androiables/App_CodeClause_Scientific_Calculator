@@ -42,6 +42,7 @@ public class Evaluator {
 
     static {
         OPERATOR_PRECEDENCE = new HashMap<>();
+        OPERATOR_PRECEDENCE.put('!', 4);
         OPERATOR_PRECEDENCE.put('+', 1);
         OPERATOR_PRECEDENCE.put('-', 1);
         OPERATOR_PRECEDENCE.put('*', 2);
@@ -54,6 +55,7 @@ public class Evaluator {
         // ln -> n
         OPERATOR_PRECEDENCE.put('g', 3);
         OPERATOR_PRECEDENCE.put('n', 3);
+        OPERATOR_PRECEDENCE.put('%', 4);
     }
 
     public String solveExpression(String expression) {
@@ -179,6 +181,13 @@ public class Evaluator {
                         break;
                     case "^":
                         operandStack.push(Math.pow(operand1, operand2));
+                        break;
+                    case "!":
+                        operandStack.push(factorial(operand2));
+                        Log.d("fsdf", operand2 + "");
+                        break;
+                    case "%":
+                        operandStack.push(operand1 * operand2 / 100.0);
                         break;
                     case "s":
                         operandStack.push(Math.sin(operand2));
