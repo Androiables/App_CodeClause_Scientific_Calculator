@@ -168,26 +168,26 @@ public class Evaluator {
 
                 switch (token) {
                     case "+":
-                        operandStack.push(operand1 + operand2);
+                        operandStack.push(Math.format(operand1 + operand2));
                         break;
                     case "-":
-                        operandStack.push(operand1 - operand2);
+                        operandStack.push(Math.format(operand1 - operand2));
                         break;
                     case "*":
-                        operandStack.push(operand1 * operand2);
+                        operandStack.push(Math.format(operand1 * operand2));
                         break;
                     case "/":
-                        operandStack.push(operand1 / operand2);
+                        operandStack.push(Math.format(operand1 / operand2));
                         break;
                     case "^":
-                        operandStack.push(Math.pow(operand1, operand2));
+                        operandStack.push(Math.format(Math.pow(operand1, operand2)));
                         break;
                     case "!":
-                        operandStack.push(factorial(operand2));
+                        operandStack.push(Math.format(factorial(operand2)));
                         Log.d("fsdf", operand2 + "");
                         break;
                     case "%":
-                        operandStack.push(operand1 * operand2 / 100.0);
+                        operandStack.push(Math.format(operand1 * operand2 / 100.0));
                         break;
                     case "s":
                         operandStack.push(Math.sin(operand2));

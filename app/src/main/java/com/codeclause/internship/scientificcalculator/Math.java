@@ -8,7 +8,7 @@ public class Math {
     public static final double E = java.lang.Math.E;
     private static final DecimalFormat decfor = new DecimalFormat("0.0000");
 
-    private static double format(double data) {
+    public static double format(double data) {
         return Double.parseDouble(decfor.format(data));
     }
 
